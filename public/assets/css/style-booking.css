@@ -1,0 +1,2657 @@
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE)
+ * Fokus: Halaman Booking Pilih Barber
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; 
+    --bg-card-body: #FDFBF5; 
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111;
+    --text-grey: #AAAAAA;
+    --text-body-card: #333333; 
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; } 
+h3 { font-size: 1.5rem; color: var(--accent-gold); }
+p { margin-bottom: 1rem; color: var(--text-grey); }
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); 
+}
+.main-booking-container { 
+    max-width: 1100px; 
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Booking */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    /* Tipiskan header: kurangi padding vertikal */
+    padding: 0.35rem 0.75rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 40px; width: auto; }
+
+/* Navigasi Sub-menu */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 420px; /* sedikit lebih sempit supaya menu lebih compact */
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.6rem; /* kurangi padding vertikal dan horisontal */
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section Booking */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem; 
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+
+/* Prompt Langkah */
+.selection-prompt {
+    font-size: 1.5rem; 
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    text-align: center; 
+    font-family: var(--font-body);
+    font-weight: 500;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.selection-prompt span { color: var(--accent-gold); }
+
+/* === Grid Barber === */
+.barber-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem; 
+    background-color: var(--bg-accent-section); 
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    margin-bottom: 3rem;
+}
+.barber-card-select {
+    background-color: var(--bg-dark);
+    border-radius: 8px;
+    border: 1px solid #333;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+}
+.barber-card-select:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border-color: var(--accent-gold);
+}
+.barber-card-select.selected {
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 0 25px rgba(218, 165, 32, 0.5);
+}
+
+.barber-card-select img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(30%);
+    transition: filter 0.3s ease;
+}
+.barber-card-select:hover img,
+.barber-card-select.selected img {
+    filter: grayscale(0%);
+}
+
+.barber-info {
+    padding: 1rem;
+}
+.barber-info h4 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+.barber-rating {
+    color: var(--accent-gold);
+    font-size: 0.9rem;
+}
+.barber-rating .far.fa-star {
+     color: #555;
+}
+
+/* Indikator Pilihan (Lingkaran) */
+.selection-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--text-grey);
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.selection-indicator .inner-circle {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+.barber-card-select.selected .selection-indicator {
+    border-color: var(--accent-gold);
+}
+.barber-card-select.selected .inner-circle {
+    background-color: var(--accent-gold);
+}
+/* ----------------------- */
+
+/* Improved barber image handling: prefer top-center so faces aren't cropped. These rules override earlier repeats. */
+.barber-card-select .barber-card-img,
+.barber-card-img {
+    width: 100%;
+    height: 340px; /* increased height so torso/shirt is visible */
+    min-height: 220px;
+    object-fit: cover;
+    object-position: center 15%; /* shift slightly down from top to reveal torso */
+    display: block;
+    filter: grayscale(30%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+.barber-card-select:hover .barber-card-img,
+.barber-card-select.selected .barber-card-img {
+    filter: grayscale(0%);
+}
+
+/* Responsive adjustments for barber images */
+@media (max-width: 992px) {
+    .barber-card-select .barber-card-img { height: 300px; }
+}
+@media (max-width: 768px) {
+    .barber-card-select .barber-card-img { height: 260px; }
+}
+@media (max-width: 480px) {
+    .barber-card-select .barber-card-img { height: 220px; }
+}
+
+/* Utility: if an image should show more torso, apply this class */
+.img-show-torso {
+    object-position: center 25% !important; /* move focus lower to reveal shirt */
+}
+
+
+
+/* Tombol Selanjutnya */
+.btn-next-full {
+    display: block;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto; 
+    background-color: var(--accent-gold);
+    color: var(--text-dark);
+    padding: 1.2rem 2rem;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 3rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+.btn-next-full:hover {
+    background-color: #C08E19; 
+    color: var(--text-light);
+}
+.btn-next-full:disabled {
+    background-color: var(--text-grey);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+/* Joined brand text: CUKUR (white) + MEN (gold) */
+.logo-text-container { display: flex; align-items: center; gap: 0; }
+.logo-text-container .cukur-text { color: var(--text-light); font-weight: 700; letter-spacing: 0.6px; }
+.logo-text-container .men-text { color: var(--accent-gold); font-weight: 700; letter-spacing: 0.6px; margin-left: -2px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+
+/* Tablet and Smaller Desktops */
+@media (max-width: 992px) {
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    
+    .booking-section-title { font-size: 2rem; margin-bottom: 1rem; }
+    .selection-prompt { font-size: 1.2rem; margin-bottom: 1.5rem; }
+    .barber-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); padding: 1.5rem; }
+    .barber-card-select img { height: 220px; }
+    .barber-info h4 { font-size: 1.2rem; }
+    .btn-next-full { padding: 1rem 1.5rem; font-size: 1.2rem; margin-top: 2rem; max-width: 350px; }
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .booking-header-full { 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 1.5rem; 
+        padding: 1rem;
+    }
+    .booking-header-logo { margin-bottom: 0; } 
+    .sub-nav-full {
+        width: 100%; 
+        max-width: none;
+        margin: 0; 
+    }
+    .main-booking-section { padding: 2rem 1rem; }
+    .main-booking-container { padding: 0; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 0.8rem; margin-top: 1rem; }
+    .selection-prompt { font-size: 1.1rem; margin-bottom: 1rem; }
+    .barber-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        padding: 1rem;
+        border-radius: 8px;
+        gap: 1rem;
+    }
+    .barber-card-select img { height: 180px; }
+    .barber-info { padding: 0.8rem; }
+    .barber-info h4 { font-size: 1.1rem; }
+    .btn-next-full { padding: 0.9rem 1rem; font-size: 1.1rem; margin-top: 1.5rem; max-width: 100%; border-radius: 8px; }
+    .new-footer { padding: 2rem 1rem 1rem 1rem; margin-top: 2rem;}
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* PERUBAHAN: Rata kiri */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* PERUBAHAN: Rata kiri */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* PERBAIKAN: Jaga agar ikon rata kiri */
+    .footer-app-links { justify-content: flex-start; } /* PERUBAHAN: Rata kiri */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* PERUBAHAN: Rata kiri */
+}
+
+/* Extra Small Mobile (Optional) */
+@media (max-width: 480px) {
+     .barber-grid { 
+         grid-template-columns: 1fr;
+     }
+}
+@media (max-width: 400px) {
+    .booking-header-logo { font-size: 1.3rem; }
+    .booking-header-logo img { height: 30px; }
+    .booking-section-title { font-size: 1.5rem; }
+    .selection-prompt { font-size: 1rem; }
+    .sub-nav-full a { font-size: 0.75rem; padding: 0.6rem 0; }
+    .sub-nav-full a i { font-size: 1rem; margin-bottom: 3px; }
+}
+
+
+/*LAYANAN
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE v2)
+ * Fokus: Memperbaiki posisi sub-nav di tampilan web.
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; 
+    --bg-card-body: #FDFBF5; 
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #ffffffc2;
+    --text-grey: #AAAAAA;
+    --text-body-card: #333333; 
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; } 
+h3 { font-size: 1.5rem; color: var(--accent-gold); }
+p { margin-bottom: 1rem; color: var(--text-grey); }
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); 
+}
+.main-booking-container { 
+    max-width: 1100px; 
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* === PERBAIKAN HEADER BOOKING === */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; /* Logo kiri, Subnav Kanan */
+    /* justify-content: space-around; */ /* Jika ingin Subnav di tengah */
+    align-items: center;
+    padding: 0.5rem 0.8rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img {
+    height: 44px;
+    width: auto;
+}
+
+/* Navigasi Sub-menu (Book, Produk, Profil) */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    /* Hapus margin: auto */
+    max-width: 500px; /* Batasi lebar sub-nav agar tidak terlalu lebar */
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.6rem; /* Sesuaikan padding lebih kecil */
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem; /* Sedikit kecilkan */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i {
+    display: block; 
+    margin-bottom: 5px; 
+    font-size: 1.2rem; /* Kecilkan ikon sedikit */
+}
+/* === AKHIR PERBAIKAN HEADER === */
+
+
+/* Judul Section Booking */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem; /* Tambah margin atas */
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+
+/* Bagian "Silahkan Pilih Layanan" */
+.selection-prompt {
+    font-size: 1.5rem; 
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    text-align: center; 
+    font-family: var(--font-body);
+    font-weight: 500;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.selection-prompt span { color: var(--accent-gold); }
+
+/* Kartu Layanan */
+.layanan-grid-full {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 1.5rem;
+    padding: 2rem; 
+    background-color: var(--bg-accent-section); 
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    margin-bottom: 3rem;
+}
+.layanan-card-full {
+    background-color: #000000; 
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 100%; 
+}
+.layanan-card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-color: var(--accent-gold);
+}
+.layanan-card-full.selected {
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 0 25px rgba(218, 165, 32, 0.5);
+    background-color: #FFFBEB; 
+}
+
+.layanan-info-full h4 {
+    color: var(--text-light);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-transform: none; 
+    font-family: var(--font-body);
+    font-weight: 700;
+}
+.layanan-info-full p {
+    color: var(--text-light);
+    font-size: 1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.layanan-info-full p i {
+    color: var(--accent-gold);
+}
+.layanan-price-full {
+    color: var(--accent-gold);
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 1rem; 
+    text-align: right;
+}
+
+/* When a layanan card is selected (light background), make text dark for readability */
+.layanan-card-full.selected .layanan-info-full h4,
+.layanan-card-full.selected .layanan-info-full p {
+    color: var(--text-dark) !important;
+}
+
+/* Tombol Selanjutnya */
+.btn-next-full {
+    display: block;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto; 
+    background-color: var(--accent-gold);
+    color: var(--text-dark);
+    padding: 1.2rem 2rem;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 3rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+.btn-next-full:hover {
+    background-color: #C08E19; 
+    color: var(--text-light);
+}
+.btn-next-full:disabled {
+    background-color: var(--text-grey);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+
+/* Tablet and Smaller Desktops */
+@media (max-width: 992px) {
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; /* Perkecil sedikit */ }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    
+    .booking-section-title { font-size: 2rem; margin-bottom: 1rem; }
+    .selection-prompt { font-size: 1.2rem; margin-bottom: 1.5rem; }
+    .layanan-grid-full { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); padding: 1.5rem; }
+    .layanan-card-full { padding: 1.2rem; }
+    .layanan-info-full h4 { font-size: 1.2rem; }
+    .layanan-info-full p { font-size: 0.9rem; }
+    .layanan-price-full { font-size: 1.6rem; }
+    .btn-next-full { padding: 1rem 1.5rem; font-size: 1.2rem; margin-top: 2rem; max-width: 350px; }
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .booking-header-full { 
+        flex-direction: column; /* Stack logo dan subnav */
+        align-items: center; /* Pusatkan item */
+        gap: 1.5rem; /* Beri jarak */
+        padding: 1rem;
+    }
+    .booking-header-logo { margin-bottom: 0; } /* Hapus margin bawah logo */
+    .sub-nav-full {
+        width: 100%; /* Lebar penuh di mobile */
+        max-width: none;
+        margin: 0; /* Hapus margin auto */
+    }
+    .main-booking-section { padding: 2rem 1rem; }
+    .main-booking-container { padding: 0; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 0.8rem; margin-top: 1rem; }
+    .selection-prompt { font-size: 1.1rem; margin-bottom: 1rem; }
+    .layanan-grid-full { 
+        grid-template-columns: 1fr; /* Satu kolom di mobile */
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .layanan-card-full { padding: 1rem; }
+    .layanan-info-full h4 { font-size: 1.1rem; }
+    .layanan-info-full p { font-size: 0.85rem; }
+    .layanan-price-full { font-size: 1.4rem; }
+    .btn-next-full { padding: 0.9rem 1rem; font-size: 1.1rem; margin-top: 1.5rem; max-width: 100%; border-radius: 8px; }
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* **PERUBAHAN UTAMA: Ganti center ke left** */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    .footer-app-links { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    
+}
+
+/* Extra Small Mobile (Optional) */
+@media (max-width: 400px) {
+    .booking-header-logo { font-size: 1.3rem; }
+    .booking-header-logo img { height: 30px; }
+    .booking-section-title { font-size: 1.5rem; }
+    .selection-prompt { font-size: 1rem; }
+    .sub-nav-full a { font-size: 0.75rem; padding: 0.6rem 0; }
+    .sub-nav-full a i { font-size: 1rem; margin-bottom: 3px; }
+}
+
+/*JADWAL
+
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE v6 - FINAL FIX)
+ * Fokus: Memperbaiki overlap Flatpickr di mobile.
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A;
+    --bg-accent-section: #1A1A1A;
+    --bg-card-body: #FDFBF5;
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111;
+    --text-grey: #AAAAAA;
+    --text-body-card: #333333;
+
+    --font-heading: 'Oswald', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Responsif tambahan untuk safe-area (iOS) */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+h3 { font-size: 1.5rem; color: var(--accent-gold); }
+p { margin-bottom: 1rem; color: var(--text-grey); }
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1;
+    padding: 3rem 2rem;
+    background-color: var(--bg-dark);
+}
+.main-booking-container {
+    max-width: 900px; /* PERKECIL MAX-WIDTH agar 2 kolom tidak terlalu jauh */
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Booking */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--bg-light-dark);
+    border-bottom: 3px solid var(--accent-gold);
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 70px; width: auto; }
+
+/* Navigasi Sub-menu */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark);
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 500px;
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark);
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold);
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section Booking */
+.booking-section-title {
+    font-size: 2.5rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+
+/* Prompt Langkah */
+.selection-prompt {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.selection-prompt span { color: var(--accent-gold); }
+
+/* === Kontainer Kalender & Waktu === */
+.schedule-container {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap; /* allow stacking on small screens */
+}
+.calendar-section {
+    flex: 1 1 360px; /* allow calendar to shrink/grow */
+    max-width: 460px;
+    min-width: 260px;
+    box-sizing: border-box;
+}
+.calendar-section .flatpickr-calendar,
+.calendar-section .flatpickr-wrapper,
+.calendar-section .flatpickr {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+.flatpickr-calendar { 
+    overflow: auto; 
+    max-width: 100%;
+}
+.time-slot-section {
+    flex: 2 1 520px;
+    min-width: 260px;
+    box-sizing: border-box;
+}
+.time-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+    align-items: stretch;
+}
+.time-slot-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 0.8rem;
+    min-height: 44px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
+    color: var(--text-light);
+}
+
+/* Mobile and small tablets: stack calendar above time slots and reduce columns */
+@media (max-width: 992px) {
+    .schedule-container { gap: 0.8rem; }
+    .time-slot-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .schedule-container { flex-direction: column; }
+    .calendar-section, .time-slot-section { width: 100%; max-width: 100%; }
+    .time-slot-grid { grid-template-columns: repeat(2, 1fr); }
+    .booking-header-full { padding: 0.5rem 0.8rem !important; }
+}
+@media (max-width: 420px) {
+    .time-slot-grid { grid-template-columns: 1fr; }
+    .time-slot-button { padding: 0.55rem 0.6rem; font-size: 0.95rem; }
+}
+ 
+/* Style untuk layar lebar (misal > 768px) */
+@media (min-width: 768px) {
+    .schedule-container {
+        grid-template-columns: 1fr 1fr; /* Jadi 2 kolom */
+        align-items: flex-start; /* Rata atas */
+    }
+}
+
+/* --- Kalender (Flatpickr) --- */
+.calendar-section {
+    background-color: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(218, 165, 32, 0.1);
+    /* Penyesuaian responsif agar kalender terpusat di mode 1 kolom */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px; 
+}
+
+/* PERBAIKAN RESPONSIVITAS KALENDER: Batasi lebar maksimal Flatpickr itu sendiri */
+.flatpickr-calendar {
+    background: var(--bg-dark);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 8px;
+    box-shadow: none;
+    width: 100%; /* Disesuaikan agar responsif */
+    max-width: 320px; /* Batasan Lebar Maksimal untuk tampilan kalender yang optimal */
+    margin: 0 auto; /* Tengahkkan di dalam .calendar-section */
+}
+
+.flatpickr-months .flatpickr-month { background: var(--bg-dark); color: var(--text-light); fill: var(--text-light); }
+.flatpickr-months .flatpickr-prev-month, .flatpickr-months .flatpickr-next-month { color: var(--accent-gold); fill: var(--accent-gold); }
+.flatpickr-months .flatpickr-prev-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg { fill: var(--text-light); }
+span.flatpickr-weekday { background: var(--bg-dark); color: var(--text-grey); }
+.flatpickr-day { background: none; border: 1px solid transparent; color: var(--text-light); }
+.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay { color: #444; }
+.flatpickr-day:hover, .flatpickr-day:focus { background: var(--bg-light-dark); border-color: var(--accent-gold); color: var(--text-light); }
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange { background: var(--accent-gold); border-color: var(--accent-gold); color: var(--text-dark); }
+.flatpickr-day.today { border-color: var(--text-grey); }
+.flatpickr-day.today:hover, .flatpickr-day.today:focus { background: var(--bg-light-dark); border-color: var(--accent-gold); color: var(--text-light); }
+.flatpickr-day.disabled, .flatpickr-day.disabled:hover { cursor: not-allowed; color: #444; background: none; border-color: transparent; }
+#calendar-input { display: none; }
+
+
+/* --- Slot Waktu --- */
+.time-slot-section {
+    background-color: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(218, 165, 32, 0.1);
+    display: none; /* Sembunyikan awal */
+}
+.time-slot-section h4 {
+    font-size: 1.4rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: var(--font-heading);
+}
+.time-slot-grid {
+    display: grid;
+    /* Default 4 kolom di mobile */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 0.6rem; 
+}
+.time-slot-button {
+    background-color: var(--bg-light-dark);
+    border: 1px solid #444;
+    color: var(--text-light);
+    padding: 0.6rem 0.4rem; /* Padding tombol */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.9rem; /* Font tombol */
+    text-align: center;
+}
+.time-slot-button:hover { border-color: var(--accent-gold); }
+.time-slot-button.selected { background-color: var(--accent-gold); color: var(--text-dark); font-weight: 700; border-color: var(--accent-gold); }
+.time-slot-button:disabled { background-color: #333; color: #666; cursor: not-allowed; border-color: #444; }
+
+/* Tombol Selanjutnya */
+.btn-next-full {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: var(--accent-gold);
+    color: var(--text-dark);
+    padding: 1.2rem 2rem;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 3rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+.btn-next-full:hover { background-color: #C08E19; color: var(--text-light); }
+.btn-next-full:disabled { background-color: var(--text-grey); cursor: not-allowed; opacity: 0.7; }
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+
+/* Tablet and Smaller Desktops */
+@media (max-width: 992px) {
+    .main-booking-container { max-width: 700px; }
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+
+    .booking-section-title { font-size: 2rem; margin-bottom: 1rem; }
+    .selection-prompt { font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+    .schedule-container {
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    .calendar-section, .time-slot-section { padding: 1rem; }
+    .time-slot-grid { 
+        /* 5 kolom di tablet kecil agar lebih padat */
+        grid-template-columns: repeat(5, 1fr); 
+    } 
+
+    .btn-next-full { padding: 1rem 1.5rem; font-size: 1.2rem; margin-top: 2rem; max-width: 350px; }
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; grid-template-columns: 1fr 1fr; }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .main-booking-container { max-width: 100%; padding: 0 0.5rem; } /* Sedikit padding di container utama */
+    .booking-header-full {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+    .booking-header-logo { margin-bottom: 0; }
+    .sub-nav-full {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+    .main-booking-section { padding: 2rem 1rem; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 0.8rem; margin-top: 1rem; }
+    .selection-prompt { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .schedule-container {
+        grid-template-columns: 1fr; /* Kembali ke 1 kolom */
+        padding: 1rem;
+        gap: 1.5rem;
+        border-radius: 8px;
+    }
+    .calendar-section { 
+        padding: 1rem; 
+        max-width: 100%; 
+        /* PERBAIKAN AKHIR MOBILE: Tambah margin bawah agar ada jarak ke Time Slot Section */
+        margin-bottom: 0.5rem; 
+    }
+    .time-slot-section { padding: 1rem; }
+
+    .flatpickr-calendar.inline { 
+        max-width: 320px; 
+        margin: 0 auto;
+        /* PERBAIKAN AKHIR MOBILE: Tambah padding bawah kalender untuk ruang ekstra */
+        padding-bottom: 10px; 
+    }
+    .flatpickr-day { padding: 0.5rem 0.1rem; }
+
+    .time-slot-grid { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    .time-slot-button { font-size: 0.85rem; padding: 0.5rem 0.3rem; }
+
+    .btn-next-full { padding: 0.9rem 1rem; font-size: 1.1rem; margin-top: 1.5rem; max-width: 100%; border-radius: 8px; }
+    .new-footer { padding: 2rem 1rem 1rem 1rem; margin-top: 2rem;}
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* **PERUBAHAN UTAMA: Ganti center ke left** */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    .footer-app-links { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+}
+
+    /* Compact header override: force a thinner header everywhere */
+    .booking-header-full.compact,
+    .booking-header-full {
+        padding: 0.12rem 0.28rem !important;
+        border-bottom-width: 1px !important;
+    }
+    .booking-header-logo {
+        font-size: 1rem !important;
+        gap: 8px !important;
+    }
+    .booking-header-logo img {
+        height: 28px !important;
+        width: auto !important;
+    }
+    .sub-nav-full {
+        max-width: 340px !important;
+    }
+    .sub-nav-full a {
+        padding: 0.18rem 0.36rem !important;
+        font-size: 0.72rem !important;
+        line-height: 1 !important;
+    }
+
+    @media (max-width: 768px) {
+        .booking-header-full,
+        .booking-header-full.compact {
+            padding: 0.2rem 0.35rem !important;
+        }
+        .booking-header-logo img { height: 26px !important; }
+        .booking-header-logo { font-size: 0.95rem !important; }
+        .sub-nav-full a { padding: 0.22rem 0.3rem !important; font-size: 0.7rem !important; }
+    }
+
+    /* === Match Landing Header Sizes === */
+    /* Use the landing page header sizes: padding 0.6rem 1.2rem, logo img 56px, logo font-size 1.8rem, nav link font-size 1rem */
+    .booking-header-full.match-landing,
+    .booking-header-full {
+        padding: 0.6rem 1.2rem !important;
+        background-color: #000 !important;
+        border-bottom: 3px solid var(--accent-gold) !important;
+    }
+    .booking-header-logo {
+        font-size: 1.8rem !important;
+        gap: 10px !important;
+    }
+    .booking-header-logo img {
+        height: 56px !important;
+        width: auto !important;
+    }
+    /* Ensure the brand appears joined as CUKURMEN (no space between spans) */
+    .booking-header-logo .logo-text-container { display: flex; align-items: center; gap: 0 !important; }
+    .booking-header-logo .cukur-text { color: var(--text-light) !important; font-weight: 700; }
+    .booking-header-logo .men-text { color: var(--accent-gold) !important; font-weight: 700; margin-left: -2px !important; }
+    .sub-nav-full {
+        max-width: 1000px !important; /* allow full width similar to landing */
+    }
+    .sub-nav-full a {
+        padding: 0.6rem 0.8rem !important;
+        font-size: 1rem !important;
+        border-bottom: 2px solid transparent !important;
+    }
+
+    @media (max-width: 768px) {
+        .booking-header-full.match-landing, .booking-header-full {
+            padding: 0.6rem 0.8rem !important; /* landing uses slightly smaller padding on mobile */
+        }
+        .booking-header-logo img { height: 48px !important; }
+        .sub-nav-full a { padding: 0.5rem 0.6rem !important; font-size: 0.95rem !important; }
+    }
+
+
+/* Extra Small Mobile (Optional) */
+@media (max-width: 400px) {
+    .booking-header-logo { font-size: 1.3rem; }
+    .booking-header-logo img { height: 30px; }
+    .booking-section-title { font-size: 1.5rem; }
+    .selection-prompt { font-size: 1rem; }
+    .sub-nav-full a { font-size: 0.75rem; padding: 0.6rem 0; }
+    .sub-nav-full a i { font-size: 1rem; margin-bottom: 3px; }
+    .time-slot-grid { grid-template-columns: repeat(3, 1fr); } /* 3 kolom di layar sangat kecil */
+}
+
+/*KONFIRMASI
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE)
+ * Fokus: Halaman Konfirmasi Booking (Bayar di Tempat)
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; 
+    --bg-card-body: #FDFBF5; 
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111;
+    --text-grey: #AAAAAA;
+    --text-body-card: #333333; 
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; } 
+h3 { font-size: 1.5rem; color: var(--accent-gold); }
+p { margin-bottom: 1rem; color: var(--text-grey); }
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); 
+}
+.main-booking-container { 
+    max-width: 700px; 
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Booking */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1.5rem 2rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 70px; width: auto; }
+
+/* Navigasi Sub-menu */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 500px; 
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 1.5rem; 
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section Booking */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2.5rem; 
+    margin-top: 2rem; 
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+
+/* === Konten Konfirmasi === */
+.confirmation-details {
+    background-color: var(--bg-accent-section); 
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+.detail-section {
+    margin-bottom: 1.5rem; /* Kurangi margin */
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed rgba(218, 165, 32, 0.3); 
+}
+/* HAPUS BORDER UNTUK SECTION TERAKHIR (Total Pembayaran) */
+.detail-section.total-payment { 
+     margin-bottom: 0;
+     padding-bottom: 0;
+     border-bottom: none;
+}
+.detail-section h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    font-family: var(--font-heading);
+    border-left: 4px solid var(--accent-gold); 
+    padding-left: 10px;
+}
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+.detail-item .label {
+    color: var(--text-grey);
+    font-weight: 400;
+}
+.detail-item .value {
+    color: var(--text-light);
+    font-weight: 500;
+    text-align: right;
+}
+ .detail-item .value.price,
+ .total-payment .value { 
+     color: var(--accent-gold);
+     font-weight: 700;
+     font-size: 1.2rem;
+ }
+.total-payment { 
+     margin-top: 1.5rem;
+     padding-top: 1.5rem;
+     border-top: 1px solid rgba(218, 165, 32, 0.3);
+     font-size: 1.3rem;
+}
+
+/* --- Info Pembayaran di Tempat --- */
+.payment-info {
+    background-color: rgba(218, 165, 32, 0.05); /* Background kuning transparan */
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem; /* Jarak dari detail terakhir */
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+.payment-info i {
+    color: var(--accent-gold);
+    margin-right: 8px;
+}
+
+
+/* Tombol Konfirmasi (Tidak disabled by default) */
+.btn-confirm {
+    display: block;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto; 
+    background-color: var(--accent-gold);
+    color: var(--text-dark);
+    padding: 1.2rem 2rem;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 3rem; 
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+}
+.btn-confirm:hover {
+    background-color: #C08E19; 
+    color: var(--text-light);
+}
+/* Style saat tombol di-disable (oleh JS) */
+.btn-confirm:disabled {
+    background-color: var(--text-grey);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+/* === FOOTER === */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 992px) {
+    .main-booking-container { max-width: 600px; } 
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    
+    .booking-section-title { font-size: 2rem; margin-bottom: 2rem; }
+    .confirmation-details { padding: 1.5rem; }
+    .detail-section h4 { font-size: 1.2rem; }
+    .detail-item { font-size: 0.95rem; }
+    .detail-item .value.price, .total-payment .value { font-size: 1.1rem; }
+    .total-payment { font-size: 1.2rem; }
+    
+    .btn-confirm { padding: 1rem 1.5rem; font-size: 1.2rem; margin-top: 2rem; max-width: 350px; }
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+}
+
+/* Map container used in footers */
+.map-container {
+    width: 100%;
+    max-width: 320px; /* keep it compact inside footer */
+    height: 180px;
+    margin: 0.8rem 0 1rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 480px) {
+    .map-container { max-width: 100%; height: 160px; }
+}
+
+@media (max-width: 768px) {
+    .main-booking-container { max-width: 100%; } 
+    .booking-header-full { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1rem; }
+    .booking-header-logo { margin-bottom: 0; } 
+    .booking-header-logo img { 
+        height: 35px; /* Atur tinggi baru, misalnya 30px */
+        width: auto; /* Pastikan lebar menyesuaikan proporsi */
+    }
+    .sub-nav-full { width: 100%; max-width: none; margin: 0; }
+    .main-booking-section { padding: 2rem 1rem; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 1.5rem; margin-top: 1rem; }
+    
+    .confirmation-details { padding: 1rem; border-radius: 8px; }
+    .detail-section h4 { font-size: 1.1rem; }
+    .detail-item { font-size: 0.9rem; }
+    .detail-item .value.price, .total-payment .value { font-size: 1rem; }
+    .total-payment { font-size: 1.1rem; }
+    .payment-info { font-size: 0.9rem; padding: 0.8rem 1rem; }
+
+    .btn-confirm { padding: 0.9rem 1rem; font-size: 1.1rem; margin-top: 2rem; max-width: 100%; border-radius: 8px; }
+   .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* **PERUBAHAN UTAMA: Ganti center ke left** */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    .footer-app-links { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+}
+
+/*DETAIL
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE)
+ * Fokus: Halaman Detail Booking Berhasil
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; 
+    --bg-card-body: #FDFBF5; 
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111;
+    --text-grey: #AAAAAA;
+    --text-body-card: #333333; 
+    --color-success: #28a745; /* Warna hijau untuk sukses */
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; } 
+h3 { font-size: 1.5rem; color: var(--accent-gold); }
+p { margin-bottom: 1rem; color: var(--text-grey); }
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); 
+}
+.main-booking-container { 
+    max-width: 700px; 
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Booking */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1.5rem 2rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 70px; width: auto; }
+
+/* Navigasi Sub-menu */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 500px; 
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 1.5rem; 
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section Booking */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1rem; /* Kurangi margin bawah */
+    margin-top: 2rem; 
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+
+/* === Konten Detail Booking === */
+.booking-success-message {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.booking-success-message i {
+    font-size: 4rem;
+    color: var(--color-success); /* Ikon centang hijau */
+    margin-bottom: 1rem;
+}
+.booking-success-message h3 {
+    font-size: 1.8rem;
+    color: var(--color-success); /* Teks hijau */
+    margin-bottom: 0.5rem;
+}
+.booking-success-message p {
+    font-size: 1rem;
+    color: var(--text-grey);
+}
+
+.booking-summary {
+    background-color: var(--bg-accent-section); 
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.qr-code-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px dashed rgba(218, 165, 32, 0.3);
+}
+.qr-code-placeholder {
+    width: 180px;
+    height: 180px;
+    background-color: #fff; /* QR code biasanya putih */
+    margin: 0 auto 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    border-radius: 8px;
+    /* Ganti dengan <img> jika sudah punya QR code */
+}
+.booking-id {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+.booking-id span {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    font-size: 1.3rem;
+}
+
+.detail-section {
+    margin-bottom: 1.5rem; 
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed rgba(218, 165, 32, 0.3); 
+}
+.detail-section:last-of-type {
+     margin-bottom: 0;
+     padding-bottom: 0;
+     border-bottom: none;
+}
+.detail-section h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    font-family: var(--font-heading);
+    border-left: 4px solid var(--accent-gold); 
+    padding-left: 10px;
+}
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+.detail-item .label {
+    color: var(--text-grey);
+    font-weight: 400;
+}
+.detail-item .value {
+    color: var(--text-light);
+    font-weight: 500;
+    text-align: right;
+}
+ .detail-item .value.price,
+ .total-payment .value { 
+     color: var(--accent-gold);
+     font-weight: 700;
+     font-size: 1.2rem;
+ }
+ .detail-item .value.payment-status { /* Status pembayaran */
+     color: var(--text-light);
+     font-weight: 700;
+     font-size: 1.1rem;
+ }
+.total-payment { 
+     margin-top: 1.5rem;
+     padding-top: 1.5rem;
+     border-top: 1px solid rgba(218, 165, 32, 0.3);
+     font-size: 1.3rem;
+}
+
+/* Tombol Aksi */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+.btn-secondary { /* Tombol Batalkan */
+    background-color: transparent;
+    color: var(--text-grey);
+    border: 2px solid var(--text-grey);
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.btn-secondary:hover {
+    background-color: var(--text-grey);
+    color: var(--bg-dark);
+    border-color: var(--text-grey);
+}
+.btn-secondary:disabled {
+    background-color: var(--text-grey);
+    color: #555;
+    border-color: #555;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 992px) {
+    .main-booking-container { max-width: 600px; } 
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    
+    .booking-section-title { font-size: 2rem; margin-bottom: 1.5rem; }
+    .booking-summary { padding: 1.5rem; }
+    .qr-code-placeholder { width: 150px; height: 150px; }
+    .booking-id { font-size: 1rem; }
+    .booking-id span { font-size: 1.2rem; }
+    .detail-section h4 { font-size: 1.2rem; }
+    .detail-item { font-size: 0.95rem; }
+    .detail-item .value.price, .total-payment .value { font-size: 1.1rem; }
+    .detail-item .value.payment-status { font-size: 1rem; }
+    .total-payment { font-size: 1.2rem; }
+    .action-buttons { margin-top: 2rem; }
+
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+    .main-booking-container { max-width: 100%; } 
+    .booking-header-full { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1rem; }
+    .booking-header-logo { margin-bottom: 0; } 
+    .sub-nav-full { width: 100%; max-width: none; margin: 0; }
+    .main-booking-section { padding: 2rem 1rem; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 1rem; margin-top: 1rem; }
+    
+    .booking-success-message i { font-size: 3rem; }
+    .booking-success-message h3 { font-size: 1.5rem; }
+    .booking-success-message p { font-size: 0.9rem; }
+    .booking-summary { padding: 1rem; border-radius: 8px; }
+    .qr-code-placeholder { width: 120px; height: 120px; font-size: 0.8rem;}
+    .booking-id { font-size: 0.9rem; }
+    .booking-id span { font-size: 1.1rem; }
+    .detail-section h4 { font-size: 1.1rem; }
+    .detail-item { font-size: 0.9rem; flex-direction: column; align-items: flex-start; margin-bottom: 1rem;} /* Stack di mobile */
+    .detail-item .value { text-align: left; margin-top: 0.2rem; }
+    .detail-item .value.price, .total-payment .value { font-size: 1rem; }
+    .detail-item .value.payment-status { font-size: 0.9rem; }
+    .total-payment { font-size: 1.1rem; }
+    .action-buttons { flex-direction: column; gap: 1rem; }
+    .btn-gold, .btn-secondary { width: 100%; }
+
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* **PERUBAHAN UTAMA: Ganti center ke left** */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    .footer-app-links { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+}
+
+/*PRODUK
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE)
+ * Fokus: Halaman Katalog Produk (Konsisten dengan Booking Flow)
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; /* Background section kartu */
+    --bg-card-body: #FDFBF5; /* Kartu produk */
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111; 
+    --text-grey: #AAAAAA; 
+    --text-body-card: #333333; 
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark); /* Background body gelap */
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; } 
+h3 { font-size: 1.5rem; color: var(--accent-gold); } /* Judul produk */
+p { margin-bottom: 1rem; color: var(--text-grey); font-size: 0.95rem;}
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); /* Main section gelap */
+}
+.main-booking-container { 
+    max-width: 1100px; /* Lebar container disamakan dengan landing page */
+    margin: 0 auto;
+    padding: 0 1rem; 
+}
+
+/* Header Booking (Konsisten) */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1.5rem 2rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+    position: sticky; /* Header tetap di atas */
+    top: 0;
+    z-index: 1000;
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 70px; width: auto; }
+
+/* Navigasi Sub-menu (di dalam header) */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 500px; 
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 1.5rem; 
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section & Prompt */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1rem; 
+    margin-top: 2rem; 
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+.selection-prompt {
+    font-size: 1.2rem; /* Ukuran prompt */
+    color: var(--text-grey); /* Warna prompt */
+    margin-bottom: 3rem; /* Jarak bawah */
+    text-align: center; 
+    font-family: var(--font-body);
+    font-weight: 400;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Grid Produk (Mirip landing page) */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsif */
+    gap: 2rem; /* Jarak antar kartu */
+    padding: 2rem; 
+    background-color: var(--bg-accent-section); /* Background grid gelap */
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    margin-bottom: 3rem;
+}
+
+/* Kartu Produk (Mirip landing page) */
+.product-card {
+    background-color: var(--bg-dark); /* Kartu gelap */
+    border: 1px solid rgba(218, 165, 32, 0.2); /* Border emas tipis */
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* ensure image can fill and be clipped to card radius */
+}
+ .product-card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 10px 30px rgba(218, 165, 32, 0.2);
+ }
+.product-card img,
+.product-card-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3; /* maintain a pleasant rectangular ratio to avoid "gepeng" */
+    object-fit: cover; /* fill the area without showing empty space */
+    object-position: center;
+    display: block;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    max-height: 340px; /* avoid extremely tall images on large viewports */
+}
+
+/* Responsive overrides for product images */
+/* responsive: let images scale by width but ensure grid makes cards larger on mobile scrolling */
+@media (max-width: 992px) {
+    .product-card-img { aspect-ratio: 4/3; max-height: 300px; }
+}
+@media (max-width: 768px) {
+    .product-card-img { aspect-ratio: 4/3; max-height: 260px; }
+}
+@media (max-width: 480px) {
+    .product-card-img { aspect-ratio: 4/3; max-height: 220px; }
+}
+.product-card h3 {
+    font-size: 1.5rem; 
+    margin-bottom: 0.5rem; 
+    color: var(--text-light); /* Judul putih */
+    font-weight: 700;
+    flex-grow: 1; 
+}
+.product-card .product-price { /* Harga */
+    font-size: 1.6rem;
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.product-card .stock-status { /* Status stok */
+    font-size: 0.9rem;
+    color: var(--text-light); /* Teks terang */
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+.product-card .purchase-info { /* Info pembelian */
+     font-size: 0.85rem;
+     color: var(--text-grey);
+     margin-top: auto; /* Dorong ke bawah */
+}
+.product-card .purchase-info i {
+    margin-right: 5px;
+    color: var(--accent-gold);
+}
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 992px) {
+    .main-booking-container { max-width: 90%; } /* Sedikit lebih lebar */
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    .booking-section-title { font-size: 2rem; }
+    .selection-prompt { font-size: 1.1rem; }
+    .product-grid { padding: 1.5rem; gap: 1.5rem; }
+    .product-card { padding: 1.2rem; }
+    .product-card h3 { font-size: 1.3rem; }
+    .product-price { font-size: 1.4rem; }
+    
+    .new-footer { padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+    .booking-header-full { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1rem; }
+    .booking-header-logo { margin-bottom: 0; } 
+    .sub-nav-full { width: 100%; max-width: none; margin: 0; }
+    .main-booking-section { padding: 2rem 1rem; }
+    .booking-section-title { font-size: 1.8rem; margin-top: 1rem; }
+    .selection-prompt { font-size: 1rem; margin-bottom: 2rem;}
+    
+    .product-grid { 
+        /* For mobile, keep a denser grid but allow cards to breathe vertically */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        padding: 1rem; 
+        gap: 1rem;
+        border-radius: 8px;
+    }
+     .product-card { padding: 1rem; }
+    /* remove fixed small heights so images keep aspect ratio */
+    .product-card img { height: auto; }
+    .product-card h3 { font-size: 1.2rem; }
+    .product-price { font-size: 1.3rem; }
+
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; /* **PERUBAHAN UTAMA: Ganti center ke left** */
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+    .footer-app-links { justify-content: flex-start; } /* **PERUBAHAN UTAMA: Ganti center ke flex-start** */
+    .sub-footer { padding-top: 1rem; text-align: left; } /* **PERUBAHAN UTAMA: Ganti center ke left** */
+}
+
+/*PROFIL
+/* * CSS - TEMA PREMIUM MODERN BARBER (Booking Pages - FULL WIDTH RESPONSIVE)
+ * Fokus: Halaman Profil Pengguna (Konsisten dengan Booking Flow)
+ */
+:root {
+    --bg-dark: #111111;
+    --bg-light-dark: #1A1A1A; 
+    --bg-accent-section: #1A1A1A; /* Section kartu profil */
+    --bg-card-body: #FDFBF5; /* Kartu individual */
+    --accent-gold: #DAA520;
+    --text-light: #FDFBF5;
+    --text-dark: #111111; 
+    --text-grey: #AAAAAA; 
+    --text-body-card: #333333; 
+    --color-success: #28a745; 
+    
+    --font-heading: 'Oswald', sans-serif; 
+    --font-body: 'Roboto', sans-serif;      
+}
+/* === Tambahkan Aturan CSS Ini === */
+
+/* Tombol Logout */
+.btn-logout {
+    display: block; /* Agar bisa diatur margin auto */
+    width: auto; /* Lebar sesuai konten */
+    min-width: 150px; /* Lebar minimum */
+    margin: 2rem auto 0 auto; /* Jarak atas & tengahkan */
+    padding: 0.7rem 1.5rem;
+    background-color: transparent;
+    color: #dc3545; /* Warna merah untuk logout */
+    border: 2px solid #dc3545;
+    border-radius: 5px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-logout i {
+    margin-right: 8px;
+}
+
+.btn-logout:hover {
+    background-color: #dc3545;
+    color: var(--text-light);
+}
+
+.btn-logout:disabled {
+    background-color: var(--text-grey);
+    border-color: var(--text-grey);
+    color: #555;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Penyesuaian Responsive untuk tombol logout */
+@media (max-width: 768px) {
+    .btn-logout {
+        width: 100%; /* Lebar penuh di mobile */
+        margin-top: 1.5rem;
+    }
+}
+
+/* === Akhir Aturan CSS Tambahan === */
+
+/* Reset & Global */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark); 
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+h2 { font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-light);} /* Judul section gelap */
+h3 { font-size: 1.5rem; color: var(--accent-gold);} /* Subjudul gelap */
+h4 { font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 1rem; letter-spacing: 1px; }
+p { margin-bottom: 1rem; color: var(--text-grey); font-size: 0.95rem;}
+
+/* Main Section Container */
+.main-booking-section {
+    flex: 1; 
+    padding: 3rem 2rem; 
+    background-color: var(--bg-dark); /* Main section gelap */
+}
+.main-booking-container { 
+    max-width: 800px; /* Lebar container profil */
+    margin: 0 auto;
+    padding: 0 1rem; 
+}
+
+/* Header Booking (Konsisten) */
+.booking-header-full {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1.5rem 2rem; 
+    background-color: var(--bg-light-dark); 
+    border-bottom: 3px solid var(--accent-gold); 
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+     /* Tambahkan flex-wrap: wrap agar sub-nav bisa pindah baris di mobile */
+    flex-wrap: wrap; 
+}
+.booking-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+.booking-header-logo img { height: 70px; width: auto; }
+
+/* Navigasi Sub-menu */
+.sub-nav-full {
+    display: flex;
+    background-color: var(--bg-dark); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    max-width: 500px; 
+    overflow: hidden;
+}
+.sub-nav-full a {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 1.5rem; 
+    text-decoration: none;
+    color: var(--text-light); 
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid rgba(218, 165, 32, 0.1);
+}
+.sub-nav-full a:last-child { border-right: none; }
+.sub-nav-full a:hover {
+    background-color: var(--bg-light-dark); 
+    color: var(--accent-gold);
+}
+.sub-nav-full a.active {
+    background-color: var(--accent-gold); 
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.sub-nav-full a i { display: block; margin-bottom: 5px; font-size: 1.2rem; }
+
+/* Judul Section & Prompt */
+.booking-section-title {
+    font-size: 2.5rem; 
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 1rem; 
+    margin-top: 2rem; 
+    font-family: var(--font-heading);
+}
+.booking-section-title span { color: var(--accent-gold); }
+ .selection-prompt {
+    font-size: 1.2rem; 
+    color: var(--text-grey); 
+    margin-bottom: 3rem; 
+    text-align: center; 
+    font-family: var(--font-body);
+    font-weight: 400;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Kartu Profil Utama */
+.profile-card-main {
+    background-color: var(--bg-accent-section); /* Kartu utama pakai bg section */
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2); /* Pemisah info user & summary */
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.user-info i {
+    font-size: 3.5rem; /* Icon lebih besar */
+    color: var(--accent-gold);
+    min-width: 60px;
+    text-align: center;
+}
+.user-details span {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+.user-details .user-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-light); /* Nama putih */
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+}
+.user-details .user-contact {
+    font-size: 1rem;
+    color: var(--text-grey);
+}
+.user-details .user-status {
+    font-size: 0.8rem;
+    color: var(--color-success);
+    background-color: rgba(40, 167, 69, 0.15); /* Background hijau */
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    display: inline-block; 
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* Grid Ringkasan Profil */
+.profile-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Kolom lebih kecil */
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.summary-card {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+.summary-card .value {
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+.summary-card .label {
+    font-size: 0.9rem;
+    color: var(--text-grey);
+}
+
+/* Program Loyalitas */
+.loyalty-program h4 {
+    color: var(--text-light); /* Judul putih */
+    font-size: 1.2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: none;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.loyalty-program .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-grey);
+    margin-bottom: 0.5rem;
+}
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #333; /* Background bar gelap */
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.progress-bar-inner {
+    height: 100%;
+    width: 0%; 
+    background-color: var(--accent-gold);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+.loyalty-tips {
+    background-color: var(--bg-dark); /* Background tips */
+    border: 1px dashed rgba(218, 165, 32, 0.3); /* Border dash */
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+.loyalty-tips i {
+    color: var(--accent-gold);
+    margin-top: 3px;
+}
+.loyalty-tips p {
+    font-size: 0.9rem;
+    color: var(--text-grey);
+    margin: 0;
+    max-width: none;
+}
+
+/* Riwayat Booking */
+.booking-history {
+    margin-top: 2.5rem; /* Tambah jarak atas */
+    background-color: var(--bg-accent-section); /* Background section riwayat */
+    border-radius: 12px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    padding: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.history-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+    margin-bottom: 1.5rem;
+}
+.history-tab-btn {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-grey);
+    cursor: pointer;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px; 
+}
+.history-tab-btn.active, .history-tab-btn:hover {
+    color: var(--accent-gold);
+    border-bottom-color: var(--accent-gold);
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.no-booking {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-grey);
+}
+.no-booking i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+.no-booking p {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+/* FOOTER */
+.new-footer { background-color: #000; padding: 5rem 2rem 2rem 2rem; border-top: 1px solid rgba(218, 165, 32, 0.2); margin-top: 5rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; max-width: 1200px; margin: 0 auto 4rem auto; }
+.footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-light); text-decoration: none; margin-bottom: 1rem; }
+.footer-logo img { height: 40px; }
+.footer-about p { font-size: 0.9rem; color: var(--text-grey); max-width: 300px; margin: 0 0 1.5rem 0; }
+.footer-socials a { color: var(--text-light); text-decoration: none; font-size: 1.2rem; margin-right: 1.5rem; transition: color 0.3s ease; }
+.footer-socials a:hover { color: var(--accent-gold); }
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 1rem; }
+.footer-links a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--accent-gold); }
+.footer-support p { font-size: 0.9rem; color: var(--text-grey); margin: 0 0 1rem 0; max-width: none; display: flex; }
+.footer-support p i { color: var(--accent-gold); margin-right: 10px; width: 15px; text-align: center; }
+.footer-app-links { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.footer-app-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; }
+.sub-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-grey); max-width: 1200px; margin: 0 auto; }
+.sub-footer span { color: var(--text-light); }
+
+@media (max-width: 992px) {
+    .main-booking-container { max-width: 600px; } 
+    .booking-header-full { padding: 1rem 1.5rem; }
+    .booking-header-logo { font-size: 1.5rem; }
+    .booking-header-logo img { height: 35px; }
+    .sub-nav-full { max-width: 400px; }
+    .sub-nav-full a { font-size: 0.85rem; padding: 0.7rem 1rem; }
+    .sub-nav-full a i { font-size: 1.1rem; margin-bottom: 4px; }
+    
+    .booking-section-title { font-size: 2rem; margin-bottom: 2rem; }
+    .profile-card-main { padding: 1.5rem; }
+    .user-info i { font-size: 3rem; }
+    .user-details .user-name { font-size: 1.4rem; }
+    .profile-summary-grid { grid-template-columns: repeat(2, 1fr); } /* Jadi 2 kolom */
+    .summary-card .value { font-size: 2rem; }
+
+    .new-footer { margin-top: 3rem; padding: 3rem 1.5rem 1.5rem 1.5rem; }
+    .footer-grid { gap: 2rem; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+    .main-booking-container { max-width: 100%; } 
+    .booking-header-full { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1rem; }
+    .booking-header-logo { margin-bottom: 0; } 
+    .sub-nav-full { width: 100%; max-width: none; margin: 0; }
+    .main-booking-section { padding: 2rem 1rem; }
+    .booking-section-title { font-size: 1.8rem; margin-bottom: 1.5rem; margin-top: 1rem; }
+    
+    .profile-card-main { padding: 1rem; border-radius: 8px; }
+    .user-info { flex-direction: column; align-items: flex-start; text-align: left; gap: 1rem; }
+    .user-info i { font-size: 2.5rem; min-width: auto; margin-bottom: 0.5rem;}
+    .user-details .user-name { font-size: 1.3rem; }
+    .user-details .user-contact { font-size: 0.9rem; }
+    .profile-summary-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem;} /* Tetap 2 kolom tapi gap kecil */
+    .summary-card { padding: 1rem 0.5rem; }
+    .summary-card .value { font-size: 1.8rem; }
+    .summary-card .label { font-size: 0.8rem; }
+    .loyalty-program h4 { font-size: 1.1rem; }
+    .loyalty-tips { flex-direction: column; gap: 0.5rem; text-align: left;}
+    .loyalty-tips i { margin-top: 0; }
+    
+    .booking-history { padding: 1rem; }
+    .history-tab-btn { padding: 0.6rem 1rem; font-size: 0.9rem;}
+    .no-booking i { font-size: 2.5rem; }
+    .no-booking p { font-size: 0.9rem; }
+
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: left; 
+        gap: 2rem; 
+    }
+    .footer-logo { justify-content: flex-start; } 
+    .footer-about p { max-width: none; text-align: left; }
+    .footer-socials { text-align: left; } 
+    .footer-app-links { justify-content: flex-start; } 
+    .sub-footer { padding-top: 1rem; text-align: left; } 
+}

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Masuk - Cukur Men</title>
-    
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/assets/img/logo.png" sizes="32x32">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
@@ -33,7 +34,9 @@
                 <button class="tab-btn" data-tab="daftar">Daftar</button>
             </div>
 
-            <form id="masuk" class="login-form active" action="/login" method="POST"> <div class="form-group">
+            <form id="masuk" class="login-form active" action="/login" method="POST">
+		@csrf
+		<div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="login@gmail.com" required>
                 </div>

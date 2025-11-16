@@ -109,7 +109,7 @@ class AuthController extends Controller
      */
     protected function redirectTo()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->role === 'admin') {
             return '/admin/dashboard';
         }
 

@@ -31,6 +31,7 @@ Route::middleware(['isUser'])->group(function () {
         Route::get('/profile/data', [UserController::class, 'getProfileData'])->name('profile.data');
         Route::get('/booking/time-slots', [UserController::class, 'getAvailableTimeSlots'])->name('booking.time-slots');
         Route::post('/booking/create', [UserController::class, 'createBooking'])->name('booking.create');
+	Route::post('/booking/{id}/cancel', [BookingStatusController::class, 'userCancel'])->name('booking.cancel');
     });
 });
 
@@ -87,6 +88,7 @@ Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function 
     Route::post('/bookings/{id}/complete', [AdminController::class, 'completeBooking'])->name('bookings.complete');
     // Additional booking status routes
     Route::post('/bookings/{id}/cukur', [BookingStatusController::class, 'startCukur'])->name('bookings.cukur');
+    Route::post('/bookings/{id}/admin-cancel', [BookingStatusController::class, 'cancel'])->name('bookings.admin.cancel');
     Route::post('/bookings/{id}/cancel', [BookingStatusController::class, 'cancel'])->name('bookings.cancel');
 });
 

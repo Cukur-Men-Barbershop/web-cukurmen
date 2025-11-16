@@ -21,29 +21,7 @@ class UserController extends Controller
     
     public function dashboard()
     {
-        $user = Auth::user();
-        
-        // Get user's booking stats
-        $totalBookings = $user->bookings()->count();
-        $completedBookings = $user->bookings()->where('status', 'completed')->count();
-        
-        // For loyalty progress - assuming 5 bookings to reach next tier
-        $loyaltyProgress = min(5, $completedBookings);
-        
-        // For active coupons - assuming there are none in this basic implementation
-        $activeCoupons = 0;
-        
-        // For total spending - sum of all completed bookings
-        $totalSpending = $user->bookings()->where('status', 'completed')->sum('total_price');
-        
-        return view('user.profil', [
-            'user' => $user,
-            'totalBookings' => $totalBookings,
-            'completedBookings' => $completedBookings,
-            'loyaltyProgress' => $loyaltyProgress,
-            'activeCoupons' => $activeCoupons,
-            'totalSpending' => $totalSpending,
-        ]);
+        return redirect()->route('user.service.selection');
     }
 
     public function showLandingPage()

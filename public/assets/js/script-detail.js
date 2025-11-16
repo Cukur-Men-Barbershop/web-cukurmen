@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cancelButton.textContent = 'Membatalkan...';
 
         try {
-            const response = await fetch(`/admin/bookings/${id}/cancel`, {
+            const response = await fetch(`/user/booking/${id}/cancel`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error("Gagal membatalkan booking:", error);
+            console.log(error)
             alert('Gagal membatalkan booking. Coba lagi nanti.');
             cancelButton.disabled = false;
             cancelButton.textContent = 'Batalkan Booking';

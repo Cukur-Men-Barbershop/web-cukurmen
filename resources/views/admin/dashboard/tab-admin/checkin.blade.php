@@ -625,6 +625,7 @@ Terima kasih banyak atas kunjungannya — sampai ketemu lagi di CUKURMEN! 😎�
             cursor: pointer;
             font-size: 0.9rem;
             color: var(--text-light);
+	    white-space: nowrap;
         }
 
         .status-tab-btn:hover {
@@ -675,6 +676,130 @@ Terima kasih banyak atas kunjungannya — sampai ketemu lagi di CUKURMEN! 😎�
         .cukur {
             color: #4A90E2;
             /* Blue color for cukur count */
+        }
+	/* Responsif untuk daftar booking */
+        .jadwal-item {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .check-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .check-input-group input {
+            flex: 1;
+            padding: 12px;
+        }
+
+        .check-input-group button {
+            padding: 12px 20px;
+        }
+
+        .check-actions-btn {
+            padding: 8px 12px;
+            margin: 2px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive styles for mobile */
+        @media (max-width: 768px) {
+            .jadwal-item {
+                padding: 12px;
+            }
+
+            .jadwal-item > div {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .jadwal-item .booking-status-badge {
+                align-self: flex-start;
+            }
+
+            .jadwal-item h5 {
+                margin: 0 0 5px 0;
+            }
+
+            .jadwal-item p {
+                margin: 3px 0;
+            }
+
+            .check-input-group {
+                flex-direction: column;
+            }
+
+            .check-input-group input {
+                width: 100%;
+            }
+
+            .booking-status-tabs {
+                flex-wrap: wrap;
+            }
+
+            .status-tab-btn {
+                flex: 1;
+                min-width: 100px;
+                padding: 8px 5px;
+                font-size: 0.8rem;
+            }
+
+            .check-actions-btn {
+                padding: 7px 10px;
+                font-size: 0.8rem;
+                margin: 1px;
+            }
+
+            .check-actions-btn.refresh, .check-actions-btn.auto-cancel {
+                margin-bottom: 5px;
+            }
+
+            h4 {
+                font-size: 1.1rem;
+            }
+
+            .content-card {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .jadwal-item {
+                padding: 10px;
+            }
+
+            .jadwal-item h5 {
+                font-size: 1rem;
+            }
+
+            .jadwal-item p {
+                font-size: 0.85rem;
+            }
+
+            .booking-status-badge {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+
+            .check-actions-btn {
+                padding: 6px 8px;
+                font-size: 0.75rem;
+            }
+
+            .check-input-group input,
+            .check-input-group button {
+                padding: 10px;
+            }
+
+            .status-tab-btn {
+                min-width: 80px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 @endsection

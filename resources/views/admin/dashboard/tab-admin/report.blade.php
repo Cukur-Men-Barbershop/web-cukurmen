@@ -128,9 +128,9 @@
                             <button class="chart-tab-btn" data-chart-type="service-revenue">Pendapatan Layanan</button>
                             <button class="chart-tab-btn" data-chart-type="booking-time">Booking Berdasarkan Waktu</button>
                         </div>
-                        
-                        <div>
-                            <canvas id="revenueChart" width="400" height="300"></canvas>
+
+                        <div style="overflow-x: auto; padding: 10px 0;">
+                            <canvas id="revenueChart" width="400" height="300" style="max-width: 100%;"></canvas>
                         </div>
                         <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-grey);">Grafik akan menunjukkan perbandingan pendapatan antar barber.</p>
                     </div>
@@ -743,6 +743,53 @@ function loadReportData() {
     background: var(--accent-gold);
     color: var(--text-dark);
     font-weight: bold;
+}
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    #revenueChart {
+        width: 100% !important;
+        height: 250px !important;
+    }
+
+    .chart-tabs {
+        flex-direction: column;
+    }
+
+    .chart-tab-btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .content-card {
+        padding: 1rem;
+    }
+
+    h5 {
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #revenueChart {
+        height: 200px !important;
+    }
+
+    .report-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-group {
+        flex-direction: column;
+    }
+
+    .form-group > div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
 </style>
 

@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     font-size: 0.9rem;
     color: var(--text-light);
+    white-space: nowrap;
 }
 
 .status-tab-btn:hover {
@@ -331,6 +332,150 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .cukur {
     color: #4A90E2; /* Blue color for cukur status */
+}
+
+/* Responsif Jadwal Barber */
+.jadwal-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.barber-column {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.barber-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.barber-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.booking-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border-left: 4px solid var(--accent-gold);
+}
+
+.booking-left, .booking-right {
+    flex: 1;
+}
+
+.booking-code {
+    font-weight: bold;
+    color: var(--accent-gold);
+    font-size: 0.9rem;
+}
+
+.booking-service {
+    font-size: 0.9rem;
+    margin: 3px 0;
+}
+
+.booking-name {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.booking-time {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.booking-status {
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    .jadwal-columns {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .booking-left, .booking-right {
+        width: 100%;
+    }
+
+    .booking-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .booking-status-tabs {
+        flex-wrap: wrap;
+    }
+
+    .status-tab-btn {
+        flex: 1;
+        min-width: 80px;
+        padding: 8px 5px;
+        font-size: 0.8rem;
+    }
+
+    .subtext {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .barber-column {
+        padding: 10px;
+    }
+
+    .booking-card {
+        padding: 8px;
+    }
+
+    .booking-code, .booking-service, .booking-name {
+        font-size: 0.8rem;
+    }
+
+    .booking-time {
+        font-size: 0.9rem;
+    }
+
+    .booking-status {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    .barber-name {
+        gap: 8px;
+    }
+
+    .barber-icon {
+        width: 24px;
+        height: 24px;
+    }
 }
 </style>
 

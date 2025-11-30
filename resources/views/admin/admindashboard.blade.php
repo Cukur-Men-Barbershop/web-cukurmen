@@ -52,10 +52,6 @@
         </main>
     </div>
 
-    <footer class="admin-footer">
-        Copyright © 2025 CUKURMEN Barbershop. All rights reserved.
-    </footer>
-
     <script src="/assets/js/script-admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

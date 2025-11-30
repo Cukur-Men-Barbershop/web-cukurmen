@@ -98,7 +98,7 @@
 
                 <div class="report-tab-content" id="tren">
                     <div class="content-card" style="margin-top: 0;">
-                        <h5 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-gold); margin-bottom: 1.5rem;">Analisis Tren Harian</h5>
+                        <h5 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-gold); margin-bottom: 1.5rem;">Analisis Tren</h5>
                         <div class="trend-card conversion">
                             <h5>Conversion Rate (Booking Selesai / Total)</h5>
                             <strong id="trendConversionRate">...</strong>
@@ -112,7 +112,7 @@
                             <strong id="trendRasio">...</strong>
                         </div>
                         <div class="trend-card top-barber">
-                            <h5>Top Performer Hari Ini</h5>
+                            <h5>Top Performer</h5>
                             <strong id="trendTopBarber">...</strong>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ambil data dasbor dari API
     const currentDate = document.getElementById('date-selector-input').value;
     loadDashboardData(currentDate);
-    
+
     // Event listener untuk tombol refresh
     const refreshBtn = document.getElementById('refreshButton');
     if (refreshBtn) {
@@ -155,24 +155,60 @@ document.addEventListener('DOMContentLoaded', function() {
             loadDashboardData(selectedDate);
         });
     }
-    
+
     // Load data laporan
     loadReportData();
-    
+
     // Event listener untuk generate button
     document.getElementById('generateReportButton').addEventListener('click', function() {
         loadReportData();
     });
-    
+
     // Event listener untuk export excel button
     document.getElementById('exportExcelButton').addEventListener('click', function() {
         const reportType = document.getElementById('tipe-laporan').value;
         const reportDate = document.getElementById('tanggal-laporan').value;
-        
+
         // Redirect ke route untuk export excel dengan parameter
-        window.location.href = `/admin/reports/export/excel?report_type=${reportType}&date=${reportDate}`;
+        let exportUrl;
+        if (reportType === 'Bulanan') {
+            exportUrl = `/admin/reports/export/excel?report_type=${reportType}&month=${reportDate}`;
+        } else {
+            exportUrl = `/admin/reports/export/excel?report_type=${reportType}&date=${reportDate}`;
+        }
+        window.location.href = exportUrl;
     });
-    
+
+    // Event listener untuk tipe laporan
+    const reportTypeSelect = document.getElementById('tipe-laporan');
+    const reportDateInput = document.getElementById('tanggal-laporan');
+
+    reportTypeSelect.addEventListener('change', function() {
+        const selectedType = this.value;
+
+        if (selectedType === 'Harian') {
+            // Jika harian, gunakan input date
+            reportDateInput.type = 'date';
+        } else if (selectedType === 'Bulanan') {
+            // Jika bulanan, ubah ke input month
+            reportDateInput.type = 'month';
+
+            // Set nilai default ke bulan saat ini jika input date saat ini kosong atau tidak valid
+            if (!reportDateInput.value || reportDateInput.value.length < 7) {
+                const today = new Date();
+                const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+                reportDateInput.value = currentMonth;
+            } else {
+                // Jika sudah ada nilai, pastikan dalam format YYYY-MM
+                const selectedDate = new Date(reportDateInput.value);
+                if (!isNaN(selectedDate.getTime())) {
+                    const selectedMonth = selectedDate.getFullYear() + '-' + String(selectedDate.getMonth() + 1).padStart(2, '0');
+                    reportDateInput.value = selectedMonth;
+                }
+            }
+        }
+    });
+
     // Event listener untuk report tabs
     const reportTabs = document.querySelectorAll('#reportTabs button');
     reportTabs.forEach(tab => {
@@ -182,12 +218,12 @@ document.addEventListener('DOMContentLoaded', function() {
             reportTabs.forEach(t => t.classList.remove('active'));
             // Tambahkan class active ke tab yang diklik
             this.classList.add('active');
-            
+
             // Sembunyikan semua content
             document.querySelectorAll('.report-tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // Tampilkan content yang sesuai
             const targetContent = document.getElementById(this.getAttribute('data-report'));
             if (targetContent) {
@@ -195,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Update tanggal
     updateLastUpdatedTime();
 });
@@ -227,17 +263,36 @@ function updateDashboardSummary(summary) {
 function loadReportData() {
     const reportType = document.getElementById('tipe-laporan').value;
     const reportDate = document.getElementById('tanggal-laporan').value;
-    
-    // Ambil data dari API
-    fetch(`{{ route("admin.dashboard.data") }}?date=${reportDate}`)
+
+    // Ambil data dari API dengan parameter berdasarkan tipe laporan
+    let apiUrl;
+    if (reportType === 'Bulanan') {
+        // Format bulan: YYYY-MM
+        apiUrl = `{{ route("admin.dashboard.data") }}?month=${reportDate}`;
+    } else {
+        // Format harian: YYYY-MM-DD
+        apiUrl = `{{ route("admin.dashboard.data") }}?date=${reportDate}`;
+    }
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             // Store revenue data in a variable for later use
             loadReportData.revenue = data.revenue;
-    
+            loadReportData.bookings = data.todaysBookings;
+
             updateReportSummary(data.summary, data.revenue);
             updatePerformanceReport(data.todaysBookings, data.revenue);
             updateTrendReport(data.todaysBookings, data.summary, data.revenue);
+
+            // Determine which chart type is currently active and update the chart
+            const activeChartTab = document.querySelector('.chart-tab-btn.active');
+            const chartType = activeChartTab ? activeChartTab.getAttribute('data-chart-type') : 'barber-revenue';
+
+            // Initialize or update the chart if chart canvas exists
+            if (document.getElementById('revenueChart')) {
+                initRevenueChart(data.revenue, data.todaysBookings, chartType);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -685,23 +740,32 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadReportData() {
     const reportType = document.getElementById('tipe-laporan').value;
     const reportDate = document.getElementById('tanggal-laporan').value;
-    
-    // Ambil data dari API
-    fetch(`{{ route("admin.dashboard.data") }}?date=${reportDate}`)
+
+    // Ambil data dari API dengan parameter berdasarkan tipe laporan
+    let apiUrl;
+    if (reportType === 'Bulanan') {
+        // Format bulan: YYYY-MM
+        apiUrl = `{{ route("admin.dashboard.data") }}?month=${reportDate}`;
+    } else {
+        // Format harian: YYYY-MM-DD
+        apiUrl = `{{ route("admin.dashboard.data") }}?date=${reportDate}`;
+    }
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             // Store revenue and bookings data in variables for later use
             loadReportData.revenue = data.revenue;
             loadReportData.bookings = data.todaysBookings;
-    
+
             updateReportSummary(data.summary, data.revenue);
             updatePerformanceReport(data.todaysBookings, data.revenue);
             updateTrendReport(data.todaysBookings, data.summary, data.revenue);
-            
+
             // Determine which chart type is currently active and update the chart
             const activeChartTab = document.querySelector('.chart-tab-btn.active');
             const chartType = activeChartTab ? activeChartTab.getAttribute('data-chart-type') : 'barber-revenue';
-            
+
             // Initialize or update the chart
             initRevenueChart(data.revenue, data.todaysBookings, chartType);
         })

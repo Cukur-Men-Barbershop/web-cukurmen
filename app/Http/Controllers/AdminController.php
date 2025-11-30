@@ -26,86 +26,177 @@ class AdminController extends Controller
 
     public function getDashboardData(Request $request)
     {
-        $date = $request->query('date', date('Y-m-d'));
-        
-        // Get booking summary for the date
-        $summary = [
-            'total' => Booking::where('booking_date', $date)->count(),
-            'online' => Booking::where('booking_date', $date)
-                              ->where('payment_method', '!=', 'Walk-in')
-                              ->count(),
-            'walkIn' => Booking::where('booking_date', $date)
-                               ->where('payment_method', 'Walk-in')
-                               ->count(),
-            'menunggu' => Booking::where('booking_date', $date)
-                                 ->where('status', 'pending')
-                                 ->count(),
-            'checkIn' => Booking::where('booking_date', $date)
-                                ->where('status', 'confirmed')
-                                ->count(),
-            'cukur' => Booking::where('booking_date', $date)
-                              ->where('status', 'in_progress')
-                              ->count(),
-            'selesai' => Booking::where('booking_date', $date)
-                                ->where('status', 'completed')
-                                ->count(),
-        ];
-        
-        // Get waiting queue for the date
-        $waitingQueue = Booking::where('booking_date', $date)
-                              ->where('status', 'pending')
-                              ->with(['user', 'service', 'barber'])
-                              ->get()
-                              ->map(function ($booking) {
-                                  return [
-                                      'id' => $booking->booking_id,
-                                      'userName' => $booking->user ? $booking->user->name : 'Unknown User',
-                                      'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
-                                      'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
-                                      'time' => $booking->booking_time,
-                                      'status' => $booking->status,
-                                      'phone' => $booking->phone,
-                                      'booking_date' => $booking->booking_date,
-                                  ];
-                              });
-        
-        // Get today's bookings
-        $todaysBookings = Booking::where('booking_date', $date)
-                                ->with(['user', 'service', 'barber'])
-                                ->get()
-                                ->map(function ($booking) {
-                                    return [
-                                        'id' => $booking->booking_id,
-                                        'userName' => $booking->user ? $booking->user->name : 'Unknown User',
-                                        'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
-                                        'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
-                                        'totalPrice' => $booking->total_price,
-                                        'time' => $booking->booking_time,
-                                        'status' => $booking->status,
-                                        'paymentStatus' => $booking->payment_status,
-                                        'phone' => $booking->phone,
-                                        'booking_date' => $booking->booking_date,
-                                    ];
-                                });
-        
-        // Get booking stats for chart (last 7 days)
-        $bookingStats = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i)->toDateString();
-            $bookingStats[] = [
-                'date' => $date,
-                'count' => Booking::where('booking_date', $date)->count(),
+        $date = $request->query('date');
+        $month = $request->query('month');
+
+        // Determine the date range based on whether date or month is provided
+        if ($month) {
+            // If month is provided, get all bookings for that month
+            // Format: YYYY-MM
+            $startOfMonth = $month . '-01';
+            $endOfMonth = date('Y-m-t', strtotime($startOfMonth)); // Last day of the month
+
+            // Get booking summary for the month
+            $summary = [
+                'total' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])->count(),
+                'online' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                  ->where('payment_method', '!=', 'Walk-in')
+                                  ->count(),
+                'walkIn' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                   ->where('payment_method', 'Walk-in')
+                                   ->count(),
+                'menunggu' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                     ->where('status', 'pending')
+                                     ->count(),
+                'checkIn' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                    ->where('status', 'confirmed')
+                                    ->count(),
+                'cukur' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                  ->where('status', 'in_progress')
+                                  ->count(),
+                'selesai' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                    ->where('status', 'completed')
+                                    ->count(),
             ];
+
+            // Get waiting queue for the month
+            $waitingQueue = Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                  ->where('status', 'pending')
+                                  ->with(['user', 'service', 'barber'])
+                                  ->get()
+                                  ->map(function ($booking) {
+                                      return [
+                                          'id' => $booking->booking_id,
+                                          'userName' => $booking->user ? $booking->user->name : 'Unknown User',
+                                          'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
+                                          'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
+                                          'time' => $booking->booking_time,
+                                          'status' => $booking->status,
+                                          'phone' => $booking->phone,
+                                          'booking_date' => $booking->booking_date,
+                                      ];
+                                  });
+
+            // Get all bookings for the month
+            $todaysBookings = Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                    ->with(['user', 'service', 'barber'])
+                                    ->get()
+                                    ->map(function ($booking) {
+                                        return [
+                                            'id' => $booking->booking_id,
+                                            'userName' => $booking->user ? $booking->user->name : 'Unknown User',
+                                            'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
+                                            'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
+                                            'totalPrice' => $booking->total_price,
+                                            'time' => $booking->booking_time,
+                                            'status' => $booking->status,
+                                            'paymentStatus' => $booking->payment_status,
+                                            'phone' => $booking->phone,
+                                            'booking_date' => $booking->booking_date,
+                                        ];
+                                    });
+
+            // Get completed bookings for the month to calculate revenue
+            $completedBookings = Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                       ->where('status', 'completed')
+                                       ->with(['barber', 'service'])
+                                       ->get();
+
+            $totalRevenue = $completedBookings->sum('total_price');
+
+            // Get booking stats for chart (for the month)
+            $bookingStats = [];
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m', strtotime($startOfMonth)), date('Y', strtotime($startOfMonth)));
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $dateForStats = sprintf('%04d-%02d-%02d', date('Y', strtotime($startOfMonth)), date('m', strtotime($startOfMonth)), $day);
+                $bookingStats[] = [
+                    'date' => $dateForStats,
+                    'count' => Booking::where('booking_date', $dateForStats)->count(),
+                ];
+            }
+        } else {
+            // Default to daily if no month is provided (existing functionality)
+            $date = $request->query('date', date('Y-m-d'));
+
+            // Get booking summary for the date
+            $summary = [
+                'total' => Booking::where('booking_date', $date)->count(),
+                'online' => Booking::where('booking_date', $date)
+                                  ->where('payment_method', '!=', 'Walk-in')
+                                  ->count(),
+                'walkIn' => Booking::where('booking_date', $date)
+                                   ->where('payment_method', 'Walk-in')
+                                   ->count(),
+                'menunggu' => Booking::where('booking_date', $date)
+                                     ->where('status', 'pending')
+                                     ->count(),
+                'checkIn' => Booking::where('booking_date', $date)
+                                    ->where('status', 'confirmed')
+                                    ->count(),
+                'cukur' => Booking::where('booking_date', $date)
+                                  ->where('status', 'in_progress')
+                                  ->count(),
+                'selesai' => Booking::where('booking_date', $date)
+                                    ->where('status', 'completed')
+                                    ->count(),
+            ];
+
+            // Get waiting queue for the date
+            $waitingQueue = Booking::where('booking_date', $date)
+                                  ->where('status', 'pending')
+                                  ->with(['user', 'service', 'barber'])
+                                  ->get()
+                                  ->map(function ($booking) {
+                                      return [
+                                          'id' => $booking->booking_id,
+                                          'userName' => $booking->user ? $booking->user->name : 'Unknown User',
+                                          'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
+                                          'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
+                                          'time' => $booking->booking_time,
+                                          'status' => $booking->status,
+                                          'phone' => $booking->phone,
+                                          'booking_date' => $booking->booking_date,
+                                      ];
+                                  });
+
+            // Get today's bookings
+            $todaysBookings = Booking::where('booking_date', $date)
+                                    ->with(['user', 'service', 'barber'])
+                                    ->get()
+                                    ->map(function ($booking) {
+                                        return [
+                                            'id' => $booking->booking_id,
+                                            'userName' => $booking->user ? $booking->user->name : 'Unknown User',
+                                            'serviceName' => $booking->service ? $booking->service->name : 'Unknown Service',
+                                            'barberName' => $booking->barber ? $booking->barber->name : 'Unknown Barber',
+                                            'totalPrice' => $booking->total_price,
+                                            'time' => $booking->booking_time,
+                                            'status' => $booking->status,
+                                            'paymentStatus' => $booking->payment_status,
+                                            'phone' => $booking->phone,
+                                            'booking_date' => $booking->booking_date,
+                                        ];
+                                    });
+
+            // Get booking stats for chart (last 7 days)
+            $bookingStats = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $date = now()->subDays($i)->toDateString();
+                $bookingStats[] = [
+                    'date' => $date,
+                    'count' => Booking::where('booking_date', $date)->count(),
+                ];
+            }
+
+            // Calculate revenue data for reports
+            $completedBookings = Booking::where('booking_date', $date)
+                                       ->where('status', 'completed')
+                                       ->with(['barber', 'service'])
+                                       ->get();
+
+            $totalRevenue = $completedBookings->sum('total_price');
         }
-        
-        // Calculate revenue data for reports
-        $completedBookings = Booking::where('booking_date', $date)
-                                   ->where('status', 'completed')
-                                   ->with(['barber', 'service'])
-                                   ->get();
-        
-        $totalRevenue = $completedBookings->sum('total_price');
-        
+
         // Calculate revenue by barber
         $revenueByBarber = [];
         foreach ($completedBookings as $booking) {
@@ -119,7 +210,7 @@ class AdminController extends Controller
             $revenueByBarber[$barberName]['bookingCount']++;
             $revenueByBarber[$barberName]['revenue'] += $booking->total_price;
         }
-        
+
         // Calculate revenue by service
         $revenueByService = [];
         foreach ($completedBookings as $booking) {
@@ -133,7 +224,7 @@ class AdminController extends Controller
             $revenueByService[$serviceName]['bookingCount']++;
             $revenueByService[$serviceName]['revenue'] += $booking->total_price;
         }
-        
+
         return response()->json([
             'summary' => $summary,
             'waitingQueue' => $waitingQueue,
@@ -594,73 +685,149 @@ class AdminController extends Controller
     public function exportReportToExcel(Request $request)
     {
         // Get the report date and type from the request, default to today and daily
-        $date = $request->query('date', date('Y-m-d'));
+        $date = $request->query('date');
+        $month = $request->query('month');
         $reportType = $request->query('report_type', 'Harian'); // 'Harian' or 'Bulanan' from the UI
 
-        // For now, we'll focus on daily report based on the selected date
-        // If needed, we can expand this to support monthly reports
+        // Determine the date range based on whether date or month is provided
+        if ($month) {
+            // If month is provided, get data for the entire month
+            $startOfMonth = $month . '-01';
+            $endOfMonth = date('Y-m-t', strtotime($startOfMonth)); // Last day of the month
 
-        // Get the same data used in the dashboard
-        $summary = [
-            'total' => Booking::where('booking_date', $date)->count(),
-            'online' => Booking::where('booking_date', $date)
-                              ->where('payment_method', '!=', 'Walk-in')
-                              ->count(),
-            'walkIn' => Booking::where('booking_date', $date)
-                               ->where('payment_method', 'Walk-in')
-                               ->count(),
-            'menunggu' => Booking::where('booking_date', $date)
-                                 ->where('status', 'pending')
-                                 ->count(),
-            'checkIn' => Booking::where('booking_date', $date)
-                                ->where('status', 'confirmed')
-                                ->count(),
-            'cukur' => Booking::where('booking_date', $date)
-                              ->where('status', 'in_progress')
-                              ->count(),
-            'selesai' => Booking::where('booking_date', $date)
-                                ->where('status', 'completed')
-                                ->count(),
-        ];
+            // Get the same data used in the dashboard for the month
+            $summary = [
+                'total' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])->count(),
+                'online' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                  ->where('payment_method', '!=', 'Walk-in')
+                                  ->count(),
+                'walkIn' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                   ->where('payment_method', 'Walk-in')
+                                   ->count(),
+                'menunggu' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                     ->where('status', 'pending')
+                                     ->count(),
+                'checkIn' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                    ->where('status', 'confirmed')
+                                    ->count(),
+                'cukur' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                  ->where('status', 'in_progress')
+                                  ->count(),
+                'selesai' => Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                    ->where('status', 'completed')
+                                    ->count(),
+            ];
 
-        // Get completed bookings to calculate revenue
-        $completedBookings = Booking::where('booking_date', $date)
-                                   ->where('status', 'completed')
-                                   ->with(['barber', 'service'])
-                                   ->get();
+            // Get completed bookings to calculate revenue for the month
+            $completedBookings = Booking::whereBetween('booking_date', [$startOfMonth, $endOfMonth])
+                                       ->where('status', 'completed')
+                                       ->with(['barber', 'service'])
+                                       ->get();
 
-        $totalRevenue = $completedBookings->sum('total_price');
+            $totalRevenue = $completedBookings->sum('total_price');
 
-        // Calculate revenue by barber
-        $revenueByBarber = [];
-        foreach ($completedBookings as $booking) {
-            $barberName = $booking->barber ? $booking->barber->name : 'Unknown Barber';
-            if (!isset($revenueByBarber[$barberName])) {
-                $revenueByBarber[$barberName] = [
-                    'bookingCount' => 0,
-                    'revenue' => 0
-                ];
+            // Title for the report
+            $reportTitle = "Laporan Booking - Bulan: " . $month;
+            $filename = "laporan_booking_" . $month . ".csv";
+
+            // Calculate revenue by barber
+            $revenueByBarber = [];
+            foreach ($completedBookings as $booking) {
+                $barberName = $booking->barber ? $booking->barber->name : 'Unknown Barber';
+                if (!isset($revenueByBarber[$barberName])) {
+                    $revenueByBarber[$barberName] = [
+                        'bookingCount' => 0,
+                        'revenue' => 0
+                    ];
+                }
+                $revenueByBarber[$barberName]['bookingCount']++;
+                $revenueByBarber[$barberName]['revenue'] += $booking->total_price;
             }
-            $revenueByBarber[$barberName]['bookingCount']++;
-            $revenueByBarber[$barberName]['revenue'] += $booking->total_price;
-        }
 
-        // Calculate revenue by service
-        $revenueByService = [];
-        foreach ($completedBookings as $booking) {
-            $serviceName = $booking->service ? $booking->service->name : 'Unknown Service';
-            if (!isset($revenueByService[$serviceName])) {
-                $revenueByService[$serviceName] = [
-                    'bookingCount' => 0,
-                    'revenue' => 0
-                ];
+            // Calculate revenue by service
+            $revenueByService = [];
+            foreach ($completedBookings as $booking) {
+                $serviceName = $booking->service ? $booking->service->name : 'Unknown Service';
+                if (!isset($revenueByService[$serviceName])) {
+                    $revenueByService[$serviceName] = [
+                        'bookingCount' => 0,
+                        'revenue' => 0
+                    ];
+                }
+                $revenueByService[$serviceName]['bookingCount']++;
+                $revenueByService[$serviceName]['revenue'] += $booking->total_price;
             }
-            $revenueByService[$serviceName]['bookingCount']++;
-            $revenueByService[$serviceName]['revenue'] += $booking->total_price;
+
+        } else {
+            // Default to daily if no month is provided (existing functionality)
+            $date = $request->query('date', date('Y-m-d'));
+
+            // Get the same data used in the dashboard
+            $summary = [
+                'total' => Booking::where('booking_date', $date)->count(),
+                'online' => Booking::where('booking_date', $date)
+                                  ->where('payment_method', '!=', 'Walk-in')
+                                  ->count(),
+                'walkIn' => Booking::where('booking_date', $date)
+                                   ->where('payment_method', 'Walk-in')
+                                   ->count(),
+                'menunggu' => Booking::where('booking_date', $date)
+                                     ->where('status', 'pending')
+                                     ->count(),
+                'checkIn' => Booking::where('booking_date', $date)
+                                    ->where('status', 'confirmed')
+                                    ->count(),
+                'cukur' => Booking::where('booking_date', $date)
+                                  ->where('status', 'in_progress')
+                                  ->count(),
+                'selesai' => Booking::where('booking_date', $date)
+                                    ->where('status', 'completed')
+                                    ->count(),
+            ];
+
+            // Get completed bookings to calculate revenue
+            $completedBookings = Booking::where('booking_date', $date)
+                                       ->where('status', 'completed')
+                                       ->with(['barber', 'service'])
+                                       ->get();
+
+            $totalRevenue = $completedBookings->sum('total_price');
+
+            // Title for the report
+            $reportTitle = "Laporan Booking - Tanggal: " . $date;
+            $filename = "laporan_booking_" . $date . ".csv";
+
+            // Calculate revenue by barber
+            $revenueByBarber = [];
+            foreach ($completedBookings as $booking) {
+                $barberName = $booking->barber ? $booking->barber->name : 'Unknown Barber';
+                if (!isset($revenueByBarber[$barberName])) {
+                    $revenueByBarber[$barberName] = [
+                        'bookingCount' => 0,
+                        'revenue' => 0
+                    ];
+                }
+                $revenueByBarber[$barberName]['bookingCount']++;
+                $revenueByBarber[$barberName]['revenue'] += $booking->total_price;
+            }
+
+            // Calculate revenue by service
+            $revenueByService = [];
+            foreach ($completedBookings as $booking) {
+                $serviceName = $booking->service ? $booking->service->name : 'Unknown Service';
+                if (!isset($revenueByService[$serviceName])) {
+                    $revenueByService[$serviceName] = [
+                        'bookingCount' => 0,
+                        'revenue' => 0
+                    ];
+                }
+                $revenueByService[$serviceName]['bookingCount']++;
+                $revenueByService[$serviceName]['revenue'] += $booking->total_price;
+            }
         }
 
         // Generate CSV content
-        $csvContent = "Laporan Booking - Tanggal: " . $date . "\n";
+        $csvContent = $reportTitle . "\n";
         $csvContent .= "\n";
         $csvContent .= "Statistik Umum:\n";
         $csvContent .= "Total Booking," . $summary['total'] . "\n";
@@ -687,7 +854,7 @@ class AdminController extends Controller
         // Set headers for CSV download
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="laporan_booking_' . $date . '.csv"',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
             'Pragma' => 'no-cache',
         ];
 

@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -272,11 +273,22 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
             'stock_quantity' => 'required|integer|min:0',
             'status' => 'required|in:active,inactive',
         ]);
 
-        $product = Product::create($request->all());
+        $productData = $request->except(['image']);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('products', $imageName, 'public');
+            $productData['image_path'] = '/storage/' . $imagePath;
+        }
+
+        $product = Product::create($productData);
 
         return response()->json($product, 201);
     }
@@ -284,17 +296,36 @@ class AdminController extends Controller
     public function updateProduct(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'price' => 'sometimes|integer|min:0',
             'description' => 'sometimes|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
             'stock_quantity' => 'sometimes|integer|min:0',
             'status' => 'sometimes|in:active,inactive',
         ]);
-        
-        $product->update($request->all());
-        
+
+        $productData = $request->except(['image']);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($product->image_path) {
+                $oldImagePath = str_replace('/storage/', '', $product->image_path);
+                if (Storage::disk('public')->exists($oldImagePath)) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('products', $imageName, 'public');
+            $productData['image_path'] = '/storage/' . $imagePath;
+        }
+
+        $product->update($productData);
+
         return response()->json($product);
     }
 
@@ -341,16 +372,16 @@ class AdminController extends Controller
     public function updateService(Request $request, $id)
     {
         $service = Service::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'price' => 'sometimes|integer|min:0',
             'duration' => 'sometimes|integer|min:0',
             'description' => 'sometimes|string',
         ]);
-        
+
         $service->update($request->all());
-        
+
         return response()->json($service);
     }
 
@@ -374,10 +405,21 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'specialty' => 'nullable|string|max:255',
             'rating' => 'sometimes|numeric|min:0|max:5',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
             'status' => 'required|in:active,inactive',
         ]);
 
-        $barber = Barber::create($request->all());
+        $barberData = $request->except(['image']);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('barbers', $imageName, 'public');
+            $barberData['image_path'] = '/storage/' . $imagePath;
+        }
+
+        $barber = Barber::create($barberData);
 
         return response()->json($barber, 201);
     }
@@ -385,16 +427,35 @@ class AdminController extends Controller
     public function updateBarber(Request $request, $id)
     {
         $barber = Barber::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'specialty' => 'sometimes|string|max:255',
             'rating' => 'sometimes|numeric|min:0|max:5',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
             'status' => 'sometimes|in:active,inactive',
         ]);
-        
-        $barber->update($request->all());
-        
+
+        $barberData = $request->except(['image']);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($barber->image_path) {
+                $oldImagePath = str_replace('/storage/', '', $barber->image_path);
+                if (Storage::disk('public')->exists($oldImagePath)) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('barbers', $imageName, 'public');
+            $barberData['image_path'] = '/storage/' . $imagePath;
+        }
+
+        $barber->update($barberData);
+
         return response()->json($barber);
     }
 
@@ -404,6 +465,12 @@ class AdminController extends Controller
         $barber->delete();
         
         return response()->json(['message' => 'Barber deleted successfully']);
+    }
+
+    public function getBarber($id)
+    {
+        $barber = Barber::findOrFail($id);
+        return response()->json($barber);
     }
 
     public function getAllBookings()
@@ -432,7 +499,11 @@ class AdminController extends Controller
         // Broadcast the status update
         event(new BookingStatusUpdated($booking));
 
-        return response()->json($booking);
+        return response()->json([
+            'success' => true,
+            'booking' => $booking,
+            'message' => 'Check-in berhasil!'
+        ]);
     }
 
     public function createBooking(Request $request)
@@ -659,7 +730,11 @@ class AdminController extends Controller
         // Broadcast the status update
         event(new BookingStatusUpdated($booking));
 
-        return response()->json($booking);
+        return response()->json([
+            'success' => true,
+            'booking' => $booking,
+            'message' => 'Booking selesai!'
+        ]);
     }
     
     public function showCheckIn()

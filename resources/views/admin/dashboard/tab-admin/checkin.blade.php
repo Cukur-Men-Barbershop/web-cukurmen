@@ -440,7 +440,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data) {
+                    if (data.success) {
                         alert(data.message || 'Check-in berhasil!');
                         // Refresh data after check-in
                         const selectedDate = document.getElementById('date-selector-input').value;
@@ -469,7 +469,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.booking_id) { // Check if booking_id exists in response (indicating success)
                         alert(data.message || 'Status cukur dimulai!');
                         // Refresh data after updating status
                         const selectedDate = document.getElementById('date-selector-input').value;
@@ -498,8 +498,7 @@
                         alert(data.message || 'Booking selesai!');
                         // Refresh data after updating status
                         const selectedDate = document.getElementById('date-selector-input').value;
-
-                        (selectedDate);
+                        loadDashboardData(selectedDate);
                     } else {
                         alert(data.message || 'Gagal menyelesaikan booking.');
                     }
@@ -525,8 +524,7 @@
                             alert(data.message || 'Booking berhasil dibatalkan!');
                             // Refresh data after cancellation
                             const selectedDate = document.getElementById('date-selector-input').value;
-
-                            (selectedDate);
+                            loadDashboardData(selectedDate);
                         } else {
                             alert(data.message || 'Gagal membatalkan booking.');
                         }

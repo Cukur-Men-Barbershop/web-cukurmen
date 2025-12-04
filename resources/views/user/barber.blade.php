@@ -38,41 +38,28 @@
             <p class="selection-prompt">Langkah 2: Silahkan Pilih <span>Barber</span></p>
             
             <div class="barber-grid">
-
-                <div class="barber-card-select" data-barber-id="1" data-barber-name="Zaki">
-                    <img class="barber-card-img img-show-torso" src="/assets/img/barber1.jpg" alt="Zaki">
-                    <div class="barber-info">
-                        <h4>Zaki</h4>
-                        <div class="barber-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                @if($barbers->count() > 0)
+                    @foreach($barbers as $barber)
+                    <div class="barber-card-select" data-barber-id="{{ $barber->id }}" data-barber-name="{{ $barber->name }}">
+                        <img class="barber-card-img img-show-torso" src="{{ $barber->image_path ?? '/assets/img/barber-default.jpg' }}" alt="{{ $barber->name }}" onerror="this.onerror=null; this.src='/assets/img/logo.png';">
+                        <div class="barber-info">
+                            <h4>{{ $barber->name }}</h4>
+                            <div class="barber-rating">
+                                @for($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star @if($i < $barber->rating) filled @endif"></i>
+                                @endfor
+                            </div>
+                        </div>
+                        <div class="selection-indicator">
+                            <div class="inner-circle"></div>
                         </div>
                     </div>
-                    <div class="selection-indicator">
-                        <div class="inner-circle"></div>
+                    @endforeach
+                @else
+                    <div class="no-barbers">
+                        <p>Tidak ada barber yang tersedia saat ini.</p>
                     </div>
-                </div>
-
-                <div class="barber-card-select" data-barber-id="2" data-barber-name="Safik">
-                    <img class="barber-card-img img-show-torso" src="/assets/img/barber2.jpg" alt="Safik">
-                    <div class="barber-info">
-                        <h4>Safik</h4>
-                        <div class="barber-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                     <div class="selection-indicator">
-                        <div class="inner-circle"></div>
-                    </div>
-                </div>
-
+                @endif
                 </div>
 
             <button class="btn-next-full" id="btnNext" disabled>Selanjutnya</button>
@@ -133,7 +120,62 @@
     </div>
     </footer>
 
-    <script src="/assets/js/script-barber.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dapatkan semua elemen card barber yang dihasilkan (oleh backend)
+            const barberCards = document.querySelectorAll('.barber-card-select');
+            const btnNext = document.getElementById('btnNext');
+            let selectedBarber = null;
+
+            // Ambil data layanan dari sessionStorage
+            const selectedServiceJSON = sessionStorage.getItem('selectedService');
+            if (!selectedServiceJSON) {
+                // Jika tidak ada data layanan, redirect kembali ke halaman layanan
+                alert('Pilih layanan terlebih dahulu.');
+                window.location.href = '/user/booking/service';
+                return; // Hentikan eksekusi script
+            }
+
+            // Baris ini opsional, hanya untuk debugging di console browser
+            const selectedService = JSON.parse(selectedServiceJSON);
+            console.log("Layanan yang dipilih:", selectedService);
+
+            // Tambahkan event listener untuk setiap card barber
+            barberCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Hapus kelas 'selected' dari semua card
+                    barberCards.forEach(bc => bc.classList.remove('selected'));
+
+                    // Tambahkan kelas 'selected' ke card yang diklik
+                    this.classList.add('selected');
+
+                    // Simpan data barber yang dipilih (ID dan Nama)
+                    // Ini adalah perubahan penting untuk backend
+                    selectedBarber = {
+                        id: this.dataset.barberId,      // Ambil ID dari data-barber-id
+                        name: this.dataset.barberName   // Ambil Nama dari data-barber-name
+                    };
+
+                    // Aktifkan tombol 'Selanjutnya'
+                    btnNext.disabled = false;
+                });
+            });
+
+            // Tambahkan event listener untuk tombol 'Selanjutnya'
+            btnNext.addEventListener('click', function() {
+                if (selectedBarber) {
+                    // Simpan objek barber yang dipilih ke sessionStorage
+                    sessionStorage.setItem('selectedBarber', JSON.stringify(selectedBarber));
+
+                    // Arahkan ke halaman Pilih Jadwal - Laravel route
+                    window.location.href = '/user/booking/schedule';
+                } else {
+                    // Seharusnya tidak terjadi jika tombolnya disabled, tapi sebagai penjagaan
+                    alert('Mohon pilih barber terlebih dahulu.');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -523,6 +523,14 @@
                 year: 'numeric'
             });
 
+            // Only show cancel button for upcoming bookings (not completed or cancelled)
+            const showCancelButton = !['completed', 'cancelled'].includes(booking.status_raw);
+
+            let cancelButtonHtml = '';
+            if (showCancelButton) {
+                cancelButtonHtml = `<button class="btn-cancel-booking" data-booking-id="${booking.booking_id}">Batalkan Booking</button>`;
+            }
+
             bookingCard.innerHTML = `
                 <div class="booking-info">
                     <div class="booking-header">
@@ -551,12 +559,96 @@
                             <span>Kode: ${booking.booking_id}</span>
                         </div>
                     </div>
+                    ${cancelButtonHtml}
                 </div>
             `;
 
             return bookingCard;
         }
+
+        // Event delegation for cancel buttons
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('btn-cancel-booking')) {
+                const bookingId = e.target.dataset.bookingId;
+                if (bookingId) {
+                    cancelBooking(bookingId, e.target);
+                }
+            }
+        });
+
+        /**
+         * Mengirim permintaan pembatalan ke backend
+         * @param {string} id - Booking ID yang akan dibatalkan
+         * @param {HTMLElement} button - Tombol yang diklik
+         */
+        async function cancelBooking(id, button) {
+            if (!id) {
+                alert('Booking ID tidak valid.');
+                return;
+            }
+
+            // Tampilkan konfirmasi sebelum membatalkan
+            if (!confirm('Apakah Anda yakin ingin membatalkan booking ini?')) {
+                return;
+            }
+
+            console.log(`Mengirim permintaan pembatalan untuk Booking ID: ${id}`);
+            button.disabled = true;
+            button.textContent = 'Membatalkan...';
+
+            try {
+                const response = await fetch(`/user/booking/${id}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ status: 'cancelled' })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Gagal menghubungi server.');
+                }
+
+                const result = await response.json();
+                alert('Booking berhasil dibatalkan.');
+
+                // Refresh the booking list to reflect the change
+                loadBookingHistory();
+
+            } catch (error) {
+                console.error("Gagal membatalkan booking:", error);
+                alert('Gagal membatalkan booking. Coba lagi nanti.');
+                button.disabled = false;
+                button.textContent = 'Batalkan Booking';
+            }
+        }
     </script>
+
+    <style>
+        .btn-cancel-booking {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .btn-cancel-booking:hover {
+            background-color: #c82333;
+        }
+
+        .btn-cancel-booking:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
 
 </body>
 

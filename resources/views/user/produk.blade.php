@@ -37,39 +37,21 @@
             <p class="selection-prompt">Temukan produk perawatan rambut premium kami. Pembelian hanya dapat dilakukan langsung di barbershop.</p>
             
             <div class="product-grid">
-                
-                <div class="product-card">
-                    <img class="product-card-img" src="/assets/img/hair.jpg" alt="Hair Tonic Cukur Men"> 
-                    <h3>Hair Tonic</h3>
-                    <span class="product-price">Rp 45.000</span>
-                    <span class="stock-status">Ready Stock</span>
-                    <p class="purchase-info"><i class="fas fa-store"></i> Beli di tempat</p>
-                </div>
-
-                <div class="product-card">
-                    <img class="product-card-img" src="/assets/img/vit.jpg" alt="Hair Vitamin Cukur Men"> 
-                    <h3>Hair Vitamin</h3>
-                     <span class="product-price">Rp 75.000</span>
-                     <span class="stock-status">Ready Stock</span>
-                     <p class="purchase-info"><i class="fas fa-store"></i> Beli di tempat</p>
-                </div>
-                
-                      <div class="product-card">
-                          <img class="product-card-img" src="/assets/img/vow.jpg" alt="Hair Powder Cukur Men"> 
-                    <h3>Hair Powder</h3>
-                    <span class="product-price">Rp 55.000</span>
-                     <span class="stock-status">Ready Stock</span>
-                     <p class="purchase-info"><i class="fas fa-store"></i> Beli di tempat</p>
-                </div>
-
-                <div class="product-card">
-                    <img class="product-card-img" src="/assets/img/pom.jpg" alt="Cream Pomade Cukur Men"> 
-                    <h3>Premium Pomade</h3>
-                     <span class="product-price">Rp 65.000</span>
-                     <span class="stock-status">Ready Stock</span>
-                     <p class="purchase-info"><i class="fas fa-store"></i> Beli di tempat</p>
-                </div>
-
+                @if($products->count() > 0)
+                    @foreach($products as $product)
+                    <div class="product-card">
+                        <img class="product-card-img" src="{{ $product->image_path ?? '/assets/img/product-default.jpg' }}" alt="{{ $product->name }}" onerror="this.onerror=null; this.src='/assets/img/logo.png';">
+                        <h3>{{ $product->name }}</h3>
+                        <span class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                        <span class="stock-status">{{ $product->status == 'active' ? 'Ready Stock' : ucfirst($product->status) }}</span>
+                        <p class="purchase-info"><i class="fas fa-store"></i> Beli di tempat</p>
+                    </div>
+                    @endforeach
+                @else
+                    <div class="no-products">
+                        <p>Tidak ada produk yang tersedia saat ini.</p>
+                    </div>
+                @endif
                 </div>
         </div>
     </main>
@@ -127,5 +109,13 @@
         </div>
     </footer>
 
-    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Produk page doesn't typically have next button for selection like layanan/barber
+            // but adding this in case there's similar functionality required
+            console.log("Product page loaded");
+        });
+    </script>
+
+</body>
 </html>

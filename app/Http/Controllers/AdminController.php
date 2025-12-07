@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -372,6 +373,8 @@ class AdminController extends Controller
     public function updateService(Request $request, $id)
     {
         $service = Service::findOrFail($id);
+
+        Log::info('Update service payload', $request->all());
 
         $request->validate([
             'name' => 'sometimes|string|max:255',
